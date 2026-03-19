@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manutenção Atendimento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+
+    <div data-component="nav"></div>
+
+    <div data-component="hero"></div>
+
+    <div data-component="stats"></div>
+
+    <div data-component="servicos"></div>
+
+    <div data-component="sobre"></div>
+
+    <div data-component="contato"></div>
+
+    <div data-component="footer"></div>
+
+
+    <script>
+     document.addEventListener('components:loaded', () => {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  els.forEach(el => obs.observe(el));
+});
+    </script>
+
+    <script src="js/loader.js"></script>
+  </body>
+</html>
