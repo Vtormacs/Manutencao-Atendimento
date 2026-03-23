@@ -1,51 +1,524 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manutenção Atendimento</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitor Tech — Limpeza & Montagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Mulish:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0c0c0c;
+      --bg2:      #111111;
+      --bg3:      #161616;
+      --line:     rgba(255,255,255,.07);
+      --text:     #e8e4dc;
+      --muted:    rgba(232, 228, 220, 0.932);
+      --accent:   #2dd5ff;
+      --accent2:  #00e5b0;
+      --radius:   2px;
+    }
 
-    <div data-component="nav"></div>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-    <div data-component="hero"></div>
-
-    <div data-component="stats"></div>
-
-    <div data-component="servicos"></div>
-
-    <div data-component="sobre"></div>
-
-    <div data-component="contato"></div>
-
-    <div data-component="footer"></div>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Mulish', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
 
 
-    <script>
-     document.addEventListener('components:loaded', () => {
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          obs.unobserve(e.target);
-        }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5%;
+      border-bottom: 1px solid var(--line);
+      background: rgba(12,12,12,.8);
+      backdrop-filter: blur(16px);
+    }
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700; font-size: .85rem; letter-spacing: .05em;
+      color: var(--text); text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav a:not(.logo) {
+      color: var(--muted); text-decoration: none; font-size: .78rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    nav a:not(.logo):hover { color: var(--text); }
+    .nav-cta {
+      font-family: 'Unbounded', sans-serif; font-size: .7rem !important;
+      color: var(--bg) !important; background: var(--accent);
+      padding: .55rem 1.2rem; letter-spacing: .06em !important;
+    }
+    .nav-cta:hover { background: #25D366; color: var(--bg) !important; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 5%;
+      position: relative; overflow: hidden;
+    }
+    .hero-noise {
+      position: absolute; inset: 0; z-index: 0; opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+    .hero-line {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 1px; background: var(--line); z-index: 0;
+    }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 2rem; justify-content: center;
+    }
+    .hero-tag::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    h1 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 5rem);
+      font-weight: 700; line-height: .95;
+      letter-spacing: -.03em;
+    }
+    h1 .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
+    h1 .accent { color: var(--accent); }
+    .hero-desc { color: var(--muted); max-width: 480px; margin: 2rem auto 0; font-size: .95rem; }
+    .hero-actions { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      font-family: 'Unbounded', sans-serif; font-size: .72rem;
+      letter-spacing: .06em; text-decoration: none; padding: .9rem 2rem;
+      transition: all .2s; display: inline-block;
+    }
+    .btn-solid { background: var(--accent); color: var(--bg); }
+    .btn-solid:hover { background: #00ffff; transform: translateY(-2px); }
+    .btn-ghost { border: 1px solid var(--line); color: var(--muted); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.25); color: var(--text); }
+ 
+    .hero-right {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .hero-stat {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.6rem 0; border-bottom: 1px solid var(--line);
+    }
+    .hero-stat:first-child { border-top: 1px solid var(--line); }
+    .stat-num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
+      font-weight: 300; color: var(--text); letter-spacing: -.04em;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label { color: var(--muted); font-size: .8rem; text-align: right; max-width: 140px; }
+ 
+
+    /* SECTIONS */
+    section { padding: 7rem 5%; }
+    .sec-header { margin-bottom: 5rem; }
+    .sec-tag {
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.2rem;
+    }
+    .sec-tag::before { content: '01'; color: var(--muted); font-size: .6rem; }
+    .sec-tag.t2::before { content: '02'; }
+    .sec-tag.t3::before { content: '03'; }
+    h2 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 300; letter-spacing: -.03em; line-height: 1.1;
+    }
+    h2 strong { font-weight: 700; }
+
+    /* SERVIÇOS */
+    #servicos { background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border-left: 1px solid var(--line);
+    }
+    .service-item {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .service-item::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .service-item:hover { background: var(--bg3); }
+    .service-item:hover::after { transform: scaleX(1); }
+    .service-num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .65rem; color: var(--muted); letter-spacing: .1em; margin-bottom: 2rem;
+    }
+    .service-icon { font-size: 1.6rem; margin-bottom: 1.5rem; display: block; line-height: 1; }
+    .service-item h3 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: .95rem; font-weight: 400; letter-spacing: -.01em; margin-bottom: .75rem;
+    }
+    .service-item p { color: var(--muted); font-size: .85rem; line-height: 1.7; }
+    .service-price {
+      display: inline-block; margin-top: 1.5rem;
+      font-family: 'Unbounded', sans-serif; font-size: .7rem;
+      color: var(--accent2); letter-spacing: .06em;
+    }
+
+    /* GALERIA */
+    #galeria { background: var(--bg); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: 2px;
+    }
+    .gallery-item {
+      background: var(--bg3); position: relative; overflow: hidden;
+    }
+    .gallery-item.wide { grid-column: span 1; }
+    .gallery-item.tall { grid-row: span 3; }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.16,1,.3,1), filter .4s;
+      filter: grayscale(20%);
+    }
+    .gallery-item:hover img { transform: scale(1.06); filter: grayscale(0%); }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .5rem; color: var(--muted);
+      border: 1px dashed var(--line);
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .gallery-placeholder svg { opacity: .3; }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(12,12,12,.8) 0%, transparent 60%);
+      opacity: 0; transition: opacity .3s;
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* CONTATO */
+    #contato { background: var(--bg2); border-top: 1px solid var(--line); }
+    .contato-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; }
+    .contato-info p { color: var(--muted); margin-top: 1.5rem; font-size: .9rem; max-width: 340px; line-height: 1.8; }
+    .contato-badge {
+      margin-top: 3rem; padding: 1.5rem;
+      border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 1rem;
+    }
+    .badge-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent2); flex-shrink: 0;
+      box-shadow: 0 0 8px var(--accent2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .badge-text { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+    .badge-text strong { display: block; color: var(--text); font-size: .8rem; margin-bottom: .15rem; }
+
+    .contato-form { display: flex; flex-direction: column; gap: 0; }
+    .filter-label {
+      font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+    .chip {
+      padding: .5rem 1rem; border: 1px solid var(--line); background: transparent;
+      color: var(--muted); font-family: 'Mulish', sans-serif;
+      font-size: .78rem; letter-spacing: .06em;
+      cursor: pointer; transition: all .2s; user-select: none;
+    }
+    .chip:hover { border-color: rgba(255,255,255,.2); color: var(--text); }
+    .chip.active { border-color: var(--accent); background: rgba(200,255,0,.06); color: var(--accent); }
+
+    .form-field { position: relative; margin-bottom: 1px; }
+    .form-field input, .form-field textarea {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid var(--line);
+      color: var(--text); font-family: 'Mulish', sans-serif;
+      font-size: .9rem; font-weight: 300;
+      padding: 1.2rem 0; outline: none;
+      transition: border-color .2s; resize: none;
+    }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); }
+    .form-field label {
+      position: absolute; top: 1.2rem; left: 0;
+      font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); pointer-events: none; transition: all .2s;
+    }
+    .form-field input:focus ~ label,
+    .form-field input:not(:placeholder-shown) ~ label,
+    .form-field textarea:focus ~ label,
+    .form-field textarea:not(:placeholder-shown) ~ label {
+      top: -.8rem; font-size: .65rem; color: var(--accent);
+    }
+    .form-field textarea { min-height: 100px; }
+    .btn-whatsapp {
+      display: flex; align-items: center; justify-content: center; gap: .75rem;
+      margin-top: 2.5rem; padding: 1.1rem;
+      background: var(--accent); color: var(--bg);
+      font-family: 'Unbounded', sans-serif; font-size: .75rem;
+      letter-spacing: .06em; border: none; cursor: pointer;
+      transition: background .2s, transform .2s; width: 100%;
+    }
+    .btn-whatsapp:hover { background: #25D366; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 5%; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .72rem; color: var(--muted); flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-family: 'Unbounded', sans-serif; font-size: .78rem; color: var(--text); }
+    .footer-logo span { color: var(--accent); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding-top: 8rem; }
+      .hero-line { display: none; }
+      .hero-right { margin-top: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .contato-layout { grid-template-columns: 1fr; gap: 3rem; }
+      nav ul { display: none; }
+    }
+    @media (max-width: 560px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item.wide, .gallery-item.tall { grid-column: span 1; grid-row: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+  <nav>
+    <a href="#" class="logo">Vitor<span>Tech</span></a>
+    <ul>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#contato" class="nav-cta">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-noise"></div>
+ 
+    <div class="hero-left">
+      <div class="hero-tag">Foz do Iguaçu · PR</div>
+      <h1>
+        Seu setup<br>
+        <span class="outline">limpo</span> e<br>
+        <span class="accent">funcionando.</span>
+      </h1>
+      <p class="hero-desc">Limpeza preventiva, montagem e manutenção de PCs. <br>Cada peça tratada com cuidado.</p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn btn-solid">Solicitar serviço</a>
+        <a href="#servicos" class="btn btn-ghost">Ver serviços ↓</a>
+      </div>
+    </div>
+ 
+ 
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="sec-header reveal">
+      <div class="sec-tag">Serviços</div>
+      <h2><strong>O que</strong> eu faço</h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-item">
+        <div class="service-num">001</div>
+        <span class="service-icon">🖥️</span>
+        <h3>Limpeza de PC, Notebook / Manutenção Preventiva</h3>
+        <p>Remoção de poeira, troca de pasta térmica, limpeza dos coolers e verificação geral. Seu PC rodando como novo.</p>
+        <!--<span class="service-price">A partir de R$ 80</span>-->
+      </div>
+      <div class="service-item">
+        <div class="service-num">002</div>
+        <span class="service-icon">🔧</span>
+        <h3>Montagem de PC</h3>
+        <p>Montagem completa com organização de cabos, instalação de SO e testes de estabilidade e temperatura.</p>
+        <!--<span class="service-price">A partir de R$ 80</span>-->
+      </div>
+      <div class="service-item">
+        <div class="service-num">003</div>
+        <span class="service-icon">🎮</span>
+        <h3>Limpeza de Console</h3>
+        <p>PS1, PS2, PS3, PS4, Xbox e mais. Limpeza interna completa, pasta térmica e teste de funcionamento.</p>
+        <!--<span class="service-price">A partir de R$ 80</span>-->
+      </div>
+      <!--<div class="service-item">
+        <div class="service-num">004</div>
+        <span class="service-icon">⚡</span>
+        <h3>Diagnóstico</h3>
+        <p>Identificação de falhas em hardware, superaquecimento, travamentos e boot. Orçamento antes de qualquer serviço.</p>
+        <span class="service-price">A partir de R$ 80</span>
+      </div>-->
+      <div class="service-item">
+        <div class="service-num">004</div>
+        <span class="service-icon">💾</span>
+        <h3>Upgrade de Hardware</h3>
+        <p>Instalação de SSD, memória RAM, placa de vídeo com orientação de compatibilidade inclusa.</p>
+        <!--<span class="service-price">A partir de R$ 80</span>-->
+      </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <div class="sec-header reveal">
+      <div class="sec-tag t2">Galeria</div>
+      <h2><strong>Trabalhos</strong> realizados</h2>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item wide">
+        <img src="images/20241009_013959.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20241009_011612.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20241009_011850.jpg" alt="">
+      </div>
+       
+      <div class="gallery-item">
+        <img src="images/20250629_183315.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20251228_160811.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20260106_203029.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20260307_163542.jpg" alt="">
+      </div>
+      
+      <div class="gallery-item">
+        <img src="images/20260307_200558.jpg" alt="">
+      </div>
+      
+      <div class="gallery-item">
+        <img src="images/20251228_164013.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20260217_214838.jpg" alt="">
+      </div>
+      <div class="gallery-item">
+        <img src="images/20260217_215034.jpg" alt="">
+      </div>
+      <div class="gallery-item tall">
+        <img src="images/Screenshot_20260322_231240_Instagram.jpg" alt="">
+      </div>
+       
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="contato-layout">
+      <div class="contato-info reveal">
+        <div class="sec-tag t3">Contato</div>
+        <h2><strong>Vamos</strong><br>conversar</h2>
+        <p>Selecione o serviço que precisa, descreva o problema e eu entro em contato pelo WhatsApp com o orçamento.</p>
+        <div class="contato-badge">
+          <div class="badge-dot"></div>
+          <div class="badge-text">
+            <strong>Disponível agora</strong>
+            Resposta em até 1 hora
+          </div>
+        </div>
+      </div>
+
+      <div class="contato-form reveal">
+        <p class="filter-label">Selecione o(s) serviço(s)</p>
+        <div class="filter-chips">
+          <button class="chip" onclick="toggleChip(this)">Limpeza de PC</button>
+          <button class="chip" onclick="toggleChip(this)">Montagem de PC</button>
+          <button class="chip" onclick="toggleChip(this)">Limpeza de Console</button>
+          <!--<button class="chip" onclick="toggleChip(this)">Diagnóstico</button>-->
+          <button class="chip" onclick="toggleChip(this)">Upgrade de Hardware</button>
+        </div>
+
+        <div class="form-field">
+          <input type="text" id="nome" placeholder=" " autocomplete="off">
+          <label for="nome">Nome</label>
+        </div>
+        <div class="form-field" style="margin-top:1.5rem">
+          <textarea id="msg" placeholder=" " rows="4"></textarea>
+          <label for="msg">Descreva o problema / equipamento</label>
+        </div>
+
+        <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar pelo WhatsApp
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Tech<span>Clean</span></span>
+    <span>Foz do Iguaçu · PR</span>
+    <span>© 2026 — Todos os direitos reservados</span>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
       });
-    },
-    { threshold: 0.1 }
-  );
-  els.forEach(el => obs.observe(el));
-});
-    </script>
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    <script src="js/loader.js"></script>
-  </body>
+    function toggleChip(el) { el.classList.toggle('active'); }
+
+    function enviarWhatsApp() {
+      const nome  = document.getElementById('nome').value.trim();
+      const msg   = document.getElementById('msg').value.trim();
+      const chips = [...document.querySelectorAll('.chip.active')].map(c => c.textContent);
+
+      if (!chips.length && !msg) {
+        alert('Selecione ao menos um serviço ou descreva o que precisa.');
+        return;
+      }
+
+      let texto = '*Solicitação de serviço*\n\n';
+      if (nome)         texto += `*Nome:* ${nome}\n`;
+      if (chips.length) texto += `*Serviço(s):* ${chips.join(', ')}\n`;
+      if (msg)          texto += `*Mensagem:* ${msg}`;
+
+      const numero = '554598375761';
+      window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, '_blank');
+    }
+  </script>
+</body>
 </html>
