@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vitor Tech — Limpeza & Montagem</title>
+  <title>V-Tech — Limpeza & Montagem</title>
   <link rel="icon" type="image/png" href="images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Mulish:wght@300;400;500&display=swap" rel="stylesheet">
@@ -224,10 +224,52 @@
     #contato { background: var(--bg2); border-top: 1px solid var(--line); }
     .contato-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; }
     .contato-info p { color: var(--muted); margin-top: 1.5rem; font-size: .9rem; max-width: 340px; line-height: 1.8; }
-    .contato-badge {
-      margin-top: 3rem; padding: 1.5rem;
-      border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 1rem;
-    }
+   .contato-badge {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  border: 1px solid var(--accent); /* Borda na cor principal */
+  background: linear-gradient(145deg, rgba(45, 213, 255, 0.05) 0%, rgba(12, 12, 12, 1) 100%);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.contato-badge::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 15px var(--accent);
+}
+
+.badge-text strong.title {
+  display: block;
+  color: var(--accent);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.8rem;
+}
+
+.badge-text .schedule-item {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.badge-text .schedule-item b {
+  color: var(--accent2);
+  font-weight: 500;
+}
+
     .badge-dot {
       width: 8px; height: 8px; border-radius: 50%;
       background: var(--accent2); flex-shrink: 0;
@@ -319,7 +361,7 @@
 
 <!-- NAV -->
   <nav>
-    <a href="#" class="logo">Vitor<span>Tech</span></a>
+    <a href="#" class="logo">V-<span>Tech</span></a>
     <ul>
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#galeria">Galeria</a></li>
@@ -449,25 +491,33 @@
     <div class="contato-layout">
       <div class="contato-info reveal">
         <div class="sec-tag t3">Contato</div>
-        <h2><strong>Vamos</strong><br>conversar</h2>
-        <p>Selecione o serviço que precisa, descreva o problema e eu entro em contato pelo WhatsApp com o orçamento.</p>
-        <!--<div class="contato-badge">
-          <div class="badge-dot"></div>
-          <div class="badge-text">
-            <strong>Disponibilidade</strong>
-            Seg a Sex: 18:00 - 22:00<br>
-            Sáb e Dom: 08:00 - 20:00<br>
-
-            Busco e entrego em Foz do Iguaçu sem custo adicional. Para outras regiões, consulte disponibilidade.
-          </div>
-        </div>-->
+        <!--<h2><strong>Vamos</strong><br>conversar</h2>
+        <p>Selecione o serviço que precisa, descreva o problema e eu entro em contato pelo WhatsApp com o orçamento.</p>-->
+        <div class="contato-badge">
+  <div class="badge-dot"></div>
+  <div class="badge-text">
+    <strong class="title">Logística e Horários</strong>
+    
+    <span class="schedule-item">
+      <b>Segunda a Sexta:</b><br>
+      Coleta e entrega a partir das 18:30 (sob agendamento).
+    </span>
+    
+    <span class="schedule-item">
+      <b>Finais de Semana:</b><br>
+      Atendimento domiciliar ou retirada (horário flexível).
+    </span>
+  </div>
+</div>
       </div>
 
       <div class="contato-form reveal">
         <p class="filter-label">Selecione o(s) serviço(s)</p>
         <div class="filter-chips">
           <button class="chip" onclick="toggleChip(this)">Limpeza de PC</button>
+          <button class="chip" onclick="toggleChip(this)">Limpeza de Notebook</button>
           <button class="chip" onclick="toggleChip(this)">Montagem de PC</button>
+          <button class="chip" onclick="toggleChip(this)">Formatação</button>
           <button class="chip" onclick="toggleChip(this)">Limpeza de Console</button>
           <!--<button class="chip" onclick="toggleChip(this)">Diagnóstico</button>-->
           <button class="chip" onclick="toggleChip(this)">Upgrade de Hardware</button>
@@ -479,7 +529,7 @@
         </div>
         <div class="form-field" style="margin-top:1.5rem">
           <textarea id="msg" placeholder=" " rows="4"></textarea>
-          <label for="msg">Descreva o problema / equipamento</label>
+          <label for="msg">Descreva o equipamento</label>
         </div>
 
         <button class="btn-whatsapp" onclick="enviarWhatsApp()">
@@ -492,7 +542,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <span class="footer-logo">Vitor<span>Tech</span></span>
+    <span class="footer-logo">V-<span>Tech</span></span>
     <span>Foz do Iguaçu · PR</span>
     <span>© 2026 — Todos os direitos reservados</span>
   </footer>
