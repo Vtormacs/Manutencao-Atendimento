@@ -536,7 +536,7 @@
         </div>
         <div class="form-field" style="margin-top:1.5rem">
           <textarea id="msg" placeholder=" " rows="4"></textarea>
-          <label for="msg">Descreva o equipamento</label>
+          <label for="msg">Descreva o seu equipamento</label>
         </div>
 
         <button class="btn-whatsapp" onclick="enviarWhatsApp()">
@@ -565,23 +565,32 @@
     function toggleChip(el) { el.classList.toggle('active'); }
 
     function enviarWhatsApp() {
-      const nome  = document.getElementById('nome').value.trim();
-      const msg   = document.getElementById('msg').value.trim();
-      const chips = [...document.querySelectorAll('.chip.active')].map(c => c.textContent);
+  const nome  = document.getElementById('nome').value.trim();
+  const msg   = document.getElementById('msg').value.trim();
+  const chips = [...document.querySelectorAll('.chip.active')].map(c => c.textContent);
 
-      if (!chips.length && !msg) {
-        alert('Selecione ao menos um serviço ou descreva o que precisa.');
-        return;
-      }
+  if (!chips.length && !msg) {
+    alert('Selecione ao menos um serviço ou descreva o que precisa.');
+    return;
+  }
 
-      let texto = '*Solicitação de serviço*\n\n';
-      if (nome)         texto += `*Nome:* ${nome}\n`;
-      if (chips.length) texto += `*Serviço(s):* ${chips.join(', ')}\n`;
-      if (msg)          texto += `*Mensagem:* ${msg}`;
+  let texto = 'Olá! Vim pelo site e gostaria de saber sobre';
 
-      const numero = '554598375761';
-      window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, '_blank');
-    }
+  if (chips.length === 1) {
+    texto += ` ${chips[0]}.`;
+  } else if (chips.length > 1) {
+    const ultimo = chips.pop();
+    texto += ` ${chips.join(', ')} e ${ultimo}.`;
+  } else {
+    texto += ' um serviço.';
+  }
+
+  if (nome) texto += `\n\nMeu nome é ${nome}.`;
+  if (msg)  texto += `\n\nEquipamento: ${msg}`;
+
+  const numero = '554598375761';
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, '_blank');
+}
   </script>
 </body>
 </html>
